@@ -6,7 +6,6 @@ div.Grid {
 
 div.Product {
     display: flex;
-    min-height: 100%;
     margin: 2em;
     flex-direction: column;
 }

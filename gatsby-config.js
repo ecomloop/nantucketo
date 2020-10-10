@@ -38,6 +38,14 @@ module.exports = {
       },
     },
     {
+    resolve: 'gatsby-source-google-sheets',
+    options: {
+        spreadsheetId: '1TWBrbFAEYeT0TaDfUo276m7omWL0uf_8MCzxPqtgjug',
+        worksheetTitle: 'links',
+        credentials: require(`${__dirname}/client_secret.json`,)
+      }
+    },
+    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `
