@@ -82,7 +82,50 @@ exports.createPages = ({ actions, graphql }) => {
           },
         })
       })
-    })
+
+      //Start of creating pages from Google Sheet Data
+      return graphql(`
+      {
+        allGoogleSheetLinksRow(sort: {fields: dateadded, order: DESC}) {
+          edges {
+            node {
+              articleid
+              author
+              comment
+              dateadded(formatString: "dddd MMM DD, YYYY")
+              excerpt
+              highlight
+              highlight2
+              id
+              image
+              images
+              popularity
+              publishdate
+              relativepopularity
+              source
+              source2
+              tags
+              text
+              title
+              url
+            }
+          }
+        }
+      }
+      `).then(result => {
+        result.data.allGoogleSheetLinksRow.edges.forEach(({ node }) => {
+          createPage({
+            path: `/article/${node.articleid}/`,
+            component: path.resolve(`./src/templates/SingleArticle.js`),
+            context: {
+              // Data passed to context is available
+              // in page queries as GraphQL variables.
+              articleid: node.articleid,
+            },
+          })
+        })
+      })//end of google sheet page creation
+    })// end of shopify page creation
   })
 }
 
