@@ -35,7 +35,12 @@ exports.createPages = ({ actions, graphql }) => {
     const contentTypes = _.groupBy(mdFiles, 'node.fields.contentType')
 
     _.each(contentTypes, (pages, contentType) => {
+      // skipping for contentType='posts' as they would be coming from googlesheets
+      if(contentType=='posts') return;
+
       const pagesToCreate = pages.filter(page =>
+        // skipping for 'blog' page as it would be creating by blog.js in pages directory
+        (page.node.fields.slug!='/blog/') &&
         // get pages with template field
         _.get(page, `node.frontmatter.template`)
       )
@@ -115,12 +120,12 @@ exports.createPages = ({ actions, graphql }) => {
       `).then(result => {
         result.data.allGoogleSheetLinksRow.edges.forEach(({ node }) => {
           createPage({
-            path: `/article/${node.articleid}/`,
-            component: path.resolve(`./src/templates/SingleArticle.js`),
+            path: `/blog/${node.articleid}/`,
+            component: path.resolve(`./src/templates/SingleBlog.js`),
             context: {
               // Data passed to context is available
               // in page queries as GraphQL variables.
-              articleid: node.articleid,
+              blogid: node.articleid,
             },
           })
         })

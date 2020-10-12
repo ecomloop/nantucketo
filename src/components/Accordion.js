@@ -26,7 +26,7 @@ export default class Accordion extends React.Component {
 
   render() {
     const { items, className } = this.props
-    console.log(items)
+    
     return (
       <div className={`Accordion ${className}`}>
         {!!items &&

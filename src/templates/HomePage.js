@@ -89,8 +89,9 @@ const HomePage = ({ data: { page, posts, products, projects } }) => (
       body={page.html}
       posts={posts.edges.map(post => ({
         ...post.node,
-        ...post.node.frontmatter,
-        ...post.node.fields,
+        slug: `/blog/${post.node.articleid}/`,
+        date: post.node.dateadded,
+        featuredImage: 'https://source.unsplash.com/1600x900/?abstract.'+ post.node.articleid,
       }))}
       products={products.edges.map(service => ({
         ...service.node,
@@ -121,25 +122,28 @@ export const pageQuery = graphql`
       }
     }
 
-    posts: allMarkdownRemark(
-      limit: 3
-      filter: { fields: { contentType: { eq: "posts" } } }
-      sort: { order: DESC, fields: [frontmatter___date] }
-    ) {
+    posts: allGoogleSheetLinksRow(sort: {fields: dateadded, order: DESC}, limit: 3) {
       edges {
         node {
+          articleid
+          author
+          comment
+          dateadded(formatString: "dddd MMM DD, YYYY")
           excerpt
-          fields {
-            slug
-          }
-          frontmatter {
-            title
-            date(formatString: "dddd MMMM DD, YYYY")
-            categories {
-              category
-            }
-            featuredImage
-          }
+          highlight
+          highlight2
+          id
+          image
+          images
+          popularity
+          publishdate
+          relativepopularity
+          source
+          source2
+          tags
+          text
+          title
+          url
         }
       }
     }

@@ -59,7 +59,7 @@ export class Navigation extends Component {
             
               rel="noopener noreferrer"
               aria-label="Hop aboard today"
-              class="Nav--CTA"
+              className="Nav--CTA"
             >
               hop aboard today
             </a>
